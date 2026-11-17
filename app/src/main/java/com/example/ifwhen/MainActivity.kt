@@ -3,45 +3,82 @@ package com.example.ifwhen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.ifwhen.ui.theme.IfWhenTheme
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
-            IfWhenTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+            MaterialTheme {
+                DayOfWeekScreen()
             }
         }
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun DayOfWeekScreen() {
+    var input by remember { mutableStateOf("") }
+    var result by remember { mutableStateOf("") }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text("Введите номер дня недели (1–7):", fontSize = 18.sp)
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedTextField(
+            value = input,
+            onValueChange = { input = it },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = {
+                val dayNumber = input.toIntOrNull()
+                result = when (dayNumber) {
+                    1 -> "Понедельник"
+                    2 -> "Вторник"
+                    3 -> "Среда"
+                    4 -> "Четверг"
+                    5 -> "Пятница"
+                    6 -> "Суббота"
+                    7 -> "Воскресенье"
+                    else -> "Ошибка: введите число от 1 до 7"
+                }
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Показать день недели", fontSize = 20.sp)
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Text(result, fontSize = 22.sp)
+    }
 }
 
+// Именно эта аннотация позволит отобразить предварительный просмотр справа!
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    IfWhenTheme {
-        Greeting("Android")
+fun PreviewDayOfWeek() {
+    MaterialTheme {
+        DayOfWeekScreen()
     }
 }
