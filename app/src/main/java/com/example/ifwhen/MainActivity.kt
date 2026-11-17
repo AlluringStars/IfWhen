@@ -9,6 +9,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,7 +38,12 @@ fun DayOfWeekScreen() {
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Введите номер дня недели (1–7):", fontSize = 18.sp)
+        Text(
+            text = "Введите номер дня недели (1–7):",
+            fontSize = 20.sp,
+            color = Color.Black,
+            fontWeight = FontWeight.Bold
+        )
 
         Spacer(modifier = Modifier.height(12.dp))
 
@@ -44,7 +51,13 @@ fun DayOfWeekScreen() {
             value = input,
             onValueChange = { input = it },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = Color.DarkGray,
+                unfocusedBorderColor = Color.Gray,
+                focusedTextColor = Color.DarkGray,
+                unfocusedTextColor = Color.Black
+            )
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -63,18 +76,25 @@ fun DayOfWeekScreen() {
                     else -> "Ошибка: введите число от 1 до 7"
                 }
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Magenta,
+                contentColor = Color.White
+            )
         ) {
             Text("Показать день недели", fontSize = 20.sp)
         }
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        Text(result, fontSize = 22.sp)
+        Text(
+            text = result,
+            fontSize = 22.sp,
+            color = Color.Black
+        )
     }
 }
 
-// Именно эта аннотация позволит отобразить предварительный просмотр справа!
 @Preview(showBackground = true)
 @Composable
 fun PreviewDayOfWeek() {
